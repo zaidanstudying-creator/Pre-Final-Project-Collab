@@ -6,5 +6,15 @@ use Illuminate\Database\Eloquent\Model;
 
 class Chapter extends Model
 {
-    //
+    protected $fillable = [
+        'book_id',
+        'chapter_number',
+        'title',
+        'content',
+    ];
+
+    public function book()
+    {
+        return $this->belongsTo(Book::class);
+    }
 }
