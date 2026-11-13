@@ -8,9 +8,14 @@ use App\Livewire\Author\ChapterManage;
 use App\Livewire\Admin\ModerationIndex;
 use App\Livewire\Admin\CategoryManage;
 use App\Livewire\User\BookmarkList;
+use App\Livewire\Catalog\HomeIndex;
+use App\Livewire\Catalog\BookDetail;
+use App\Livewire\Catalog\ChapterReader;
 
 
-Route::view('/', 'welcome');
+Route::get('/', HomeIndex::class)->name('home');
+Route::get('/book/{slug}', BookDetail::class)->name('book.detail');
+Route::get('/book/{book_slug}/chapter/{chapter_number}', ChapterReader::class)->name('book.read');
 
 Route::view('dashboard', 'dashboard')
     ->middleware(['auth', 'verified'])
