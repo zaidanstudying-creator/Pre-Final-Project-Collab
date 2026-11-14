@@ -1,94 +1,164 @@
-<div class="min-h-screen bg-slate-50 px-4 py-10 sm:px-6 lg:px-8">
-    <div class="mx-auto max-w-7xl">
-        <div class="mb-8 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-            <div>
-                <p class="text-sm font-semibold uppercase tracking-[0.18em] text-indigo-600">Administrasi</p>
-                <h1 class="mt-2 text-3xl font-bold tracking-tight text-slate-900">Moderasi buku</h1>
-                <p class="mt-2 text-slate-600">Tinjau kiriman penulis sebelum buku diterbitkan.</p>
+<div class="max-w-7xl mx-auto py-10 px-4 sm:px-6 lg:px-8 bg-[#F5F6FA] min-h-screen">
+
+    {{-- Header Admin Moderasi --}}
+    <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 pb-8 mb-8 border-b border-gray-200">
+        <div>
+            <div class="flex items-center gap-3 mb-3">
+                <span class="px-3 py-1 text-xs font-bold uppercase tracking-wider text-white bg-gray-900 rounded-full">Dashboard Admin</span>
+                <span class="px-3 py-1 text-xs font-bold uppercase tracking-wider text-[#FF500A] bg-orange-100 rounded-full flex items-center gap-2">
+                    <span class="w-2 h-2 rounded-full bg-[#FF500A] animate-pulse"></span>
+                    {{ $books->count() }} Antrean
+                </span>
             </div>
-            <span class="inline-flex w-fit items-center rounded-full bg-amber-100 px-4 py-2 text-sm font-semibold text-amber-800">
-                {{ $books->count() }} menunggu ditinjau
-            </span>
+            <h1 class="text-3xl font-black text-gray-900 tracking-tight">Moderasi Karya</h1>
+            <p class="text-sm font-semibold text-gray-500 mt-2">Tinjau naskah penulis, periksa kelayakan konten, dan setujui untuk publikasi.</p>
         </div>
 
-        @if (session('success'))
-            <div role="status" class="mb-6 rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm font-medium text-emerald-800">{{ session('success') }}</div>
-        @endif
+        {{-- Tombol Navigasi ke Kategori --}}
+        <div class="shrink-0 mt-4 sm:mt-0">
+            <a href="{{ route('admin.categories.index') }}" wire:navigate class="inline-flex items-center px-6 py-3 bg-white hover:bg-gray-50 text-gray-800 font-bold rounded-full text-sm transition-all shadow-sm border border-gray-200">
+                <svg class="w-4 h-4 mr-2 text-[#FF500A]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"></path></svg>
+                Kelola Kategori Genre
+            </a>
+        </div>
+    </div>
 
-        @if ($books->isEmpty())
-            <div class="rounded-2xl border border-dashed border-slate-300 bg-white px-6 py-16 text-center shadow-sm">
-                <div class="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-indigo-50 text-2xl text-indigo-600">✓</div>
-                <h2 class="mt-5 text-lg font-semibold text-slate-900">Semua sudah ditinjau</h2>
-                <p class="mt-2 text-sm text-slate-500">Belum ada buku yang menunggu moderasi.</p>
+    {{-- Notifikasi Sukses --}}
+    @if (session('success'))
+        <div class="mb-8 p-4 bg-emerald-50 border border-emerald-200 text-emerald-800 rounded-xl text-sm font-bold flex items-center gap-3 shadow-sm">
+            <svg class="w-5 h-5 text-emerald-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            {{ session('success') }}
+        </div>
+    @endif
+
+    {{-- Daftar Buku Menunggu Moderasi --}}
+    @if ($books->isEmpty())
+        <div class="flex flex-col items-center justify-center py-24 bg-white rounded-3xl border border-dashed border-gray-300 shadow-sm text-center">
+            <div class="w-20 h-20 bg-gray-50 rounded-full flex items-center justify-center mb-6 text-gray-300 border border-gray-200">
+                <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M5 13l4 4L19 7"></path></svg>
             </div>
-        @else
-            <div class="space-y-5">
-                @foreach ($books as $book)
-                    <article wire:key="book-{{ $book->id }}" class="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
-                        <div class="grid gap-6 p-5 sm:p-6 lg:grid-cols-[160px_1fr]">
-                            <div class="aspect-[3/4] overflow-hidden rounded-xl bg-slate-100">
+            <h3 class="text-2xl font-black text-gray-900 mb-2">Antrean Kosong</h3>
+            <p class="text-sm font-medium text-gray-500 max-w-sm">Tidak ada naskah baru yang menunggu untuk ditinjau saat ini. Kerja bagus, Admin!</p>
+        </div>
+    @else
+        <div class="space-y-6">
+            @foreach ($books as $book)
+                <article wire:key="book-{{ $book->id }}" class="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden transition-all hover:shadow-md">
+
+                    {{-- DI SINI PERBAIKANNYA: Menggunakan Flexbox alih-alih Grid --}}
+                    <div class="flex flex-col lg:flex-row">
+
+                        {{-- Cover Image --}}
+                        <div class="w-full lg:w-[260px] shrink-0 bg-gray-50 border-b lg:border-b-0 lg:border-r border-gray-200 p-6 flex flex-col items-center justify-start">
+                            <div class="w-40 lg:w-full aspect-[2/3] rounded-lg overflow-hidden shadow-md border border-gray-200">
                                 @if ($book->cover_image)
-                                    <img src="{{ \Illuminate\Support\Str::startsWith($book->cover_image, ['http://', 'https://']) ? $book->cover_image : \Illuminate\Support\Facades\Storage::url($book->cover_image) }}" alt="Sampul {{ $book->title }}" class="h-full w-full object-cover">
+                                    <img src="{{ \Illuminate\Support\Str::startsWith($book->cover_image, ['http://', 'https://']) ? $book->cover_image : \Illuminate\Support\Facades\Storage::url($book->cover_image) }}" alt="Sampul" class="w-full h-full object-cover">
                                 @else
-                                    <div class="flex h-full items-center justify-center p-4 text-center text-sm font-medium text-slate-400">Sampul belum tersedia</div>
+                                    <div class="flex w-full h-full items-center justify-center bg-gray-200 text-gray-400">
+                                        <svg class="w-8 h-8 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                                    </div>
                                 @endif
                             </div>
-                            <div class="flex min-w-0 flex-col">
-                                <div class="flex flex-wrap items-center gap-2">
-                                    <span class="rounded-full bg-amber-100 px-3 py-1 text-xs font-semibold text-amber-800">Menunggu moderasi</span>
-                                    <span class="rounded-full bg-slate-100 px-3 py-1 text-xs font-medium text-slate-600">{{ $book->category?->name ?? 'Tanpa kategori' }}</span>
+                        </div>
+
+                        {{-- Konten Review --}}
+                        <div class="flex-1 min-w-0 p-6 lg:p-8 flex flex-col justify-between">
+                            <div>
+                                <div class="flex items-center gap-3 mb-3">
+                                    <span class="text-xs font-black uppercase tracking-wider text-[#FF500A]">{{ $book->category?->name ?? 'Tanpa kategori' }}</span>
+                                    <span class="text-gray-300">&bull;</span>
+                                    <span class="text-xs font-semibold text-gray-500">Penulis: <a href="{{ route('profile', $book->user?->id) }}" target="_blank" class="text-gray-900 font-bold hover:text-[#FF500A] underline decoration-2 underline-offset-2">{{ $book->user?->name ?? 'Anonim' }}</a></span>
                                 </div>
-                                <h2 class="mt-4 text-2xl font-bold text-slate-900">{{ $book->title }}</h2>
-                                <p class="mt-1 text-sm text-slate-500">Oleh {{ $book->user?->name ?? 'Penulis tidak diketahui' }} · {{ $book->chapters->count() }} bab</p>
-                                <p class="mt-4 line-clamp-4 whitespace-pre-line text-sm leading-6 text-slate-600">{{ $book->synopsis }}</p>
-                                @if ($book->admin_notes)
-                                    <p class="mt-4 rounded-xl bg-slate-50 px-4 py-3 text-sm text-slate-600"><span class="font-semibold text-slate-800">Catatan sebelumnya:</span> {{ $book->admin_notes }}</p>
-                                @endif
+
+                                {{-- truncate agar judul panjang tidak merusak layout --}}
+                                <h2 class="text-2xl font-black text-gray-900 leading-tight mb-4 truncate">{{ $book->title }}</h2>
+
+                                <div class="bg-gray-50 rounded-xl p-5 border border-gray-100 mb-6">
+                                    <h4 class="text-xs font-bold uppercase tracking-widest text-gray-500 mb-2">Sinopsis</h4>
+                                    {{-- line-clamp-4 agar sinopsis dibatasi maksimal 4 baris --}}
+                                    <p class="text-sm leading-relaxed text-gray-700 whitespace-pre-line line-clamp-4">{{ $book->synopsis }}</p>
+                                </div>
+
+                                {{-- Daftar Bab Review --}}
                                 @if ($book->chapters->isNotEmpty())
-                                    <div class="mt-5 border-t border-slate-100 pt-4">
-                                        <h3 class="text-xs font-semibold uppercase tracking-wider text-slate-500">Daftar bab</h3>
-                                        <ul class="mt-2 grid gap-1 text-sm text-slate-600 sm:grid-cols-2">
+                                    <div class="mb-8">
+                                        <h4 class="text-xs font-bold uppercase tracking-widest text-gray-500 mb-3 flex items-center justify-between">
+                                            <span>Pratinjau Bab ({{ $book->chapters->count() }} Bab)</span>
+                                        </h4>
+                                        <ul class="grid sm:grid-cols-2 md:grid-cols-3 gap-3">
                                             @foreach ($book->chapters->take(6) as $chapter)
-                                                <li class="truncate">{{ $chapter->chapter_number }}. {{ $chapter->title }}</li>
+                                                <li class="flex items-center gap-3 text-sm text-gray-700 bg-white border border-gray-200 p-3 rounded-xl shadow-sm">
+                                                    <span class="w-8 h-8 rounded-lg bg-gray-100 flex items-center justify-center text-xs font-bold text-gray-500 shrink-0">{{ $chapter->chapter_number }}</span>
+                                                    <span class="truncate font-semibold">{{ $chapter->title }}</span>
+                                                </li>
                                             @endforeach
                                         </ul>
                                         @if ($book->chapters->count() > 6)
-                                            <p class="mt-2 text-xs text-slate-400">dan {{ $book->chapters->count() - 6 }} bab lainnya</p>
+                                            <p class="mt-3 text-xs font-semibold text-gray-400 text-center">...dan {{ $book->chapters->count() - 6 }} bab lainnya disembunyikan.</p>
                                         @endif
                                     </div>
+                                @else
+                                    <div class="mb-8 p-4 bg-rose-50 border border-rose-100 rounded-xl">
+                                        <p class="text-sm font-bold text-rose-600">⚠️ Perhatian: Penulis belum menambahkan bab sama sekali.</p>
+                                    </div>
                                 @endif
-                                <div class="mt-6 flex flex-wrap gap-3">
-                                    <button type="button" wire:click="approve({{ $book->id }})" wire:loading.attr="disabled" class="inline-flex items-center justify-center rounded-xl bg-emerald-600 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-emerald-700 disabled:opacity-50">Setujui &amp; Terbitkan</button>
-                                    <button type="button" wire:click="startReject({{ $book->id }})" class="inline-flex items-center justify-center rounded-xl border border-rose-200 bg-white px-4 py-2.5 text-sm font-semibold text-rose-700 transition hover:bg-rose-50">Tolak / Minta Revisi</button>
-                                </div>
+                            </div>
+
+                            {{-- Tombol Aksi --}}
+                            <div class="flex flex-col sm:flex-row gap-4 pt-6 border-t border-gray-100 mt-auto">
+                                <button type="button" wire:click="approve({{ $book->id }})" wire:loading.attr="disabled"
+                                    class="flex-1 inline-flex items-center justify-center px-8 py-3.5 bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-bold rounded-full transition-all shadow-sm shadow-emerald-200">
+                                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                    Setujui & Publikasikan
+                                </button>
+                                <button type="button" wire:click="startReject({{ $book->id }})"
+                                    class="flex-1 inline-flex items-center justify-center px-8 py-3.5 bg-white border-2 border-rose-200 text-rose-600 hover:bg-rose-50 hover:border-rose-300 text-sm font-bold rounded-full transition-all">
+                                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                                    Tolak / Minta Revisi
+                                </button>
                             </div>
                         </div>
-                    </article>
-                @endforeach
-            </div>
-        @endif
 
-        @if ($rejectingBookId)
-            <div class="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto bg-slate-950/50 p-4" role="dialog" aria-modal="true" aria-labelledby="reject-title" wire:key="reject-modal-{{ $rejectingBookId }}">
-                <div class="w-full max-w-lg rounded-2xl bg-white p-6 shadow-2xl sm:p-8">
-                    <div class="flex items-start justify-between gap-4">
-                        <div>
-                            <h2 id="reject-title" class="text-xl font-bold text-slate-900">Tolak atau minta revisi</h2>
-                            <p class="mt-2 text-sm leading-6 text-slate-600">Tuliskan alasan yang jelas agar penulis tahu bagian yang perlu diperbaiki.</p>
-                        </div>
-                        <button type="button" wire:click="closeRejectForm" aria-label="Tutup" class="rounded-lg p-2 text-slate-400 hover:bg-slate-100 hover:text-slate-700">✕</button>
                     </div>
-                    <form wire:submit="reject" class="mt-6">
-                        <label for="adminNotes" class="mb-2 block text-sm font-semibold text-slate-700">Catatan admin</label>
-                        <textarea id="adminNotes" wire:model="adminNotes" rows="5" minlength="10" required placeholder="Jelaskan alasan penolakan atau revisi (minimal 10 karakter)..." class="w-full rounded-xl border-slate-300 text-sm shadow-sm placeholder:text-slate-400 focus:border-indigo-500 focus:ring-indigo-500"></textarea>
-                        @error('adminNotes') <p class="mt-2 text-sm text-rose-600">{{ $message }}</p> @enderror
-                        <div class="mt-6 flex justify-end gap-3">
-                            <button type="button" wire:click="closeRejectForm" class="rounded-xl border border-slate-300 px-4 py-2.5 text-sm font-semibold text-slate-700 hover:bg-slate-50">Batal</button>
-                            <button type="submit" wire:loading.attr="disabled" class="rounded-xl bg-rose-600 px-4 py-2.5 text-sm font-semibold text-white hover:bg-rose-700 disabled:opacity-50">Kirim catatan &amp; tolak</button>
-                        </div>
-                    </form>
+                </article>
+            @endforeach
+        </div>
+    @endif
+
+    {{-- Modal Penolakan (Pop-up) Minimalis --}}
+    @if ($rejectingBookId)
+        <div class="fixed inset-0 z-[100] flex items-center justify-center overflow-y-auto bg-gray-900/60 backdrop-blur-sm p-4 transition-opacity" role="dialog" aria-modal="true" wire:key="reject-modal-{{ $rejectingBookId }}">
+
+            <div class="w-full max-w-lg bg-white rounded-3xl shadow-2xl overflow-hidden">
+                <div class="px-8 py-6 border-b border-gray-100 flex items-center justify-between bg-gray-50">
+                    <div>
+                        <h2 class="text-xl font-black text-gray-900">Minta Revisi Naskah</h2>
+                        <p class="text-xs font-semibold text-gray-500 mt-1">Berikan alasan jelas agar penulis bisa memperbaiki karyanya.</p>
+                    </div>
+                    <button type="button" wire:click="closeRejectForm" class="p-2 text-gray-400 hover:text-gray-900 hover:bg-gray-200 rounded-full transition-colors">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                    </button>
                 </div>
+
+                <form wire:submit="reject" class="p-8">
+                    <div>
+                        <label for="adminNotes" class="block text-xs font-bold uppercase tracking-widest text-gray-500 mb-3">Catatan Evaluasi / Alasan Penolakan</label>
+                        <textarea id="adminNotes" wire:model="adminNotes" rows="5" minlength="10" required
+                            class="block w-full rounded-xl border-gray-300 bg-white p-4 text-sm font-medium text-gray-900 focus:border-rose-500 focus:ring-1 focus:ring-rose-500 transition-colors resize-none shadow-sm"
+                            placeholder="Contoh: Tolong perbaiki format paragraf di Bab 1 dan perjelas sinopsisnya..."></textarea>
+                        @error('adminNotes') <span class="mt-2 text-xs font-bold text-rose-500 block">{{ $message }}</span> @enderror
+                    </div>
+
+                    <div class="mt-8 flex items-center justify-end gap-3 pt-6 border-t border-gray-100">
+                        <button type="button" wire:click="closeRejectForm" class="px-6 py-2.5 text-sm font-bold text-gray-500 hover:text-gray-900 transition-colors">Batal</button>
+                        <button type="submit" wire:loading.attr="disabled" class="px-8 py-2.5 bg-rose-600 hover:bg-rose-700 text-white rounded-full text-sm font-bold transition-all shadow-sm shadow-rose-200 flex items-center gap-2">
+                            <span wire:loading.remove wire:target="reject">Kirim & Tolak Naskah</span>
+                            <span wire:loading wire:target="reject">Memproses...</span>
+                        </button>
+                    </div>
+                </form>
             </div>
-        @endif
-    </div>
+
+        </div>
+    @endif
 </div>

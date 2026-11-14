@@ -71,6 +71,6 @@ class ModerationIndex extends Component
                 ->where('status', 'pending')
                 ->latest()
                 ->get(),
-        ])->layout('layouts.app');
+        ])->layout('layouts.dashboard');
     }
 }

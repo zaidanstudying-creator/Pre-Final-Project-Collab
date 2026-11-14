@@ -110,6 +110,6 @@ class CategoryManage extends Component
     {
         return view('livewire.admin.category-manage', [
             'categories' => Category::query()->withCount('books')->orderBy('name')->get(),
-        ])->layout('layouts.app');
+        ])->layout('layouts.dashboard');
     }
 }

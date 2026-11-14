@@ -4,6 +4,7 @@ namespace App\Livewire\Catalog;
 
 use App\Models\Book;
 use App\Models\Category;
+use Livewire\Attributes\Url; // <-- Tambahkan ini
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -11,8 +12,12 @@ class HomeIndex extends Component
 {
     use WithPagination;
 
+    // Tambahkan #[Url] agar bisa menerima pencarian dari Navbar
+    #[Url]
     public string $search = '';
 
+    // Tambahkan #[Url] agar bisa menerima klik kategori dari Navbar
+    #[Url]
     public string $category = '';
 
     public function updatedSearch(): void
