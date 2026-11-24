@@ -38,6 +38,10 @@
                         <p class="text-lg font-black text-gray-900 leading-none">{{ $book->category?->name ?? '-' }}</p>
                         <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mt-1">Genre</p>
                     </div>
+                    <div>
+                        <p class="text-lg font-black text-gray-900 leading-none">{{ number_format($book->views_count ?? 0) }}</p>
+                        <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mt-1">Dibaca</p>
+                    </div>
                 </div>
             </div>
 
@@ -78,6 +82,9 @@
                         <span wire:loading.remove wire:target="saveToShelf">Simpan</span>
                         <span wire:loading wire:target="saveToShelf">Menyimpan...</span>
                     </button>
+
+                    {{-- Tombol Suka / Like --}}
+                    <livewire:interactions.book-like-button :book="$book" :key="'like-detail-'.$book->id" />
 
                     @if (session('status'))
                         <span class="text-xs font-bold text-emerald-600 ml-2 animate-pulse">
@@ -128,6 +135,9 @@
                 @endforelse
             </div>
         </div>
+
+        {{-- Bagian Komentar & Diskusi Pembaca --}}
+        <livewire:interactions.book-comments :book="$book" :key="'comments-detail-'.$book->id" />
 
     </div>
 </div>

@@ -49,6 +49,22 @@ class User extends Authenticatable
     }
 
     /**
+     * Relasi: Suka/Vote buku oleh user
+     */
+    public function bookLikes(): HasMany
+    {
+        return $this->hasMany(BookLike::class);
+    }
+
+    /**
+     * Relasi: Komentar yang ditulis user
+     */
+    public function comments(): HasMany
+    {
+        return $this->hasMany(Comment::class);
+    }
+
+    /**
      * Helper untuk cek apakah user adalah admin
      */
     public function isAdmin(): bool
