@@ -1,18 +1,20 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-use App\Livewire\Author\BookIndex;
-use App\Livewire\Author\BookCreate;
-use App\Livewire\Author\BookEdit;
-use App\Livewire\Author\ChapterManage;
-use App\Livewire\Admin\ModerationIndex;
 use App\Livewire\Admin\CategoryManage;
-use App\Livewire\User\BookmarkList;
-use App\Livewire\Catalog\HomeIndex;
-use App\Livewire\Catalog\BookDetail;
-use App\Livewire\Catalog\ChapterReader;
+use App\Livewire\Admin\DashboardOverview;
+use App\Livewire\Admin\ModerationIndex;
 use App\Livewire\Auth\Login;
 use App\Livewire\Auth\Register;
+use App\Livewire\Author\BookCreate;
+use App\Livewire\Author\BookEdit;
+use App\Livewire\Author\BookIndex;
+use App\Livewire\Author\ChapterManage;
+use App\Livewire\Catalog\BookDetail;
+use App\Livewire\Catalog\ChapterReader;
+use App\Livewire\Catalog\HomeIndex;
+use App\Livewire\User\BookmarkList;
+use App\Livewire\User\ProfileIndex;
+use Illuminate\Support\Facades\Route;
 
 // Rute Guest (Autentikasi)
 Route::middleware('guest')->group(function () {
@@ -40,9 +42,10 @@ Route::middleware(['auth'])->prefix('author')->name('author.')->group(function (
 
 // Rute Administrator
 Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () {
+    Route::get('/dashboard', DashboardOverview::class)->name('dashboard');
     Route::get('/moderation', ModerationIndex::class)->name('moderation.index');
     Route::get('/categories', CategoryManage::class)->name('categories.index');
 });
 
 // Tambahkan baris ini di routes/web.php (boleh diletakkan paling bawah)
-Route::get('/profile/{id?}', \App\Livewire\User\ProfileIndex::class)->name('profile');
+Route::get('/profile/{id?}', ProfileIndex::class)->name('profile');

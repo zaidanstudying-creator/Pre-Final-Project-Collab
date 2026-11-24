@@ -17,6 +17,13 @@ class BookDetail extends Component
             ->where('status', 'published')
             ->with(['user:id,name', 'category:id,name', 'chapters'])
             ->firstOrFail();
+
+        // Anti-spam view counter via session
+        $sessionKey = 'viewed_book_'.$this->book->id;
+        if (! session()->has($sessionKey)) {
+            $this->book->increment('views_count');
+            session()->put($sessionKey, true);
+        }
     }
 
     public function saveToShelf()

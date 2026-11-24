@@ -13,6 +13,53 @@
             </a>
         </div>
 
+        {{-- 4 Kartu Statistik Ringkas Penulis --}}
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-8">
+            {{-- Kartu 1: Total Cerita --}}
+            <div class="bg-white rounded-2xl p-5 border border-gray-200/80 shadow-sm flex items-center gap-4 transition-all hover:shadow-md">
+                <div class="w-12 h-12 rounded-xl bg-orange-50 text-[#FF500A] flex items-center justify-center shrink-0">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+                </div>
+                <div>
+                    <p class="text-xs font-bold uppercase tracking-wider text-gray-400">Total Cerita</p>
+                    <h3 class="text-2xl font-black text-gray-900 leading-tight">{{ number_format($stats['total_books'] ?? 0) }}</h3>
+                </div>
+            </div>
+
+            {{-- Kartu 2: Total Pembaca --}}
+            <div class="bg-white rounded-2xl p-5 border border-gray-200/80 shadow-sm flex items-center gap-4 transition-all hover:shadow-md">
+                <div class="w-12 h-12 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center shrink-0">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+                </div>
+                <div>
+                    <p class="text-xs font-bold uppercase tracking-wider text-gray-400">Total Pembaca</p>
+                    <h3 class="text-2xl font-black text-gray-900 leading-tight">{{ number_format($stats['total_views'] ?? 0) }}</h3>
+                </div>
+            </div>
+
+            {{-- Kartu 3: Total Suka --}}
+            <div class="bg-white rounded-2xl p-5 border border-gray-200/80 shadow-sm flex items-center gap-4 transition-all hover:shadow-md">
+                <div class="w-12 h-12 rounded-xl bg-rose-50 text-rose-500 flex items-center justify-center shrink-0">
+                    <svg class="w-6 h-6 fill-rose-500 stroke-rose-500" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+                </div>
+                <div>
+                    <p class="text-xs font-bold uppercase tracking-wider text-gray-400">Total Suka</p>
+                    <h3 class="text-2xl font-black text-[#FF500A] leading-tight">{{ number_format($stats['total_likes'] ?? 0) }}</h3>
+                </div>
+            </div>
+
+            {{-- Kartu 4: Total Komentar --}}
+            <div class="bg-white rounded-2xl p-5 border border-gray-200/80 shadow-sm flex items-center gap-4 transition-all hover:shadow-md">
+                <div class="w-12 h-12 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center shrink-0">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path></svg>
+                </div>
+                <div>
+                    <p class="text-xs font-bold uppercase tracking-wider text-gray-400">Total Komentar</p>
+                    <h3 class="text-2xl font-black text-gray-900 leading-tight">{{ number_format($stats['total_comments'] ?? 0) }}</h3>
+                </div>
+            </div>
+        </div>
+
         {{-- Notifikasi --}}
         @if (session('success'))
             <div class="mb-6 p-4 bg-emerald-50 border border-emerald-200 text-emerald-700 rounded-xl text-sm font-bold flex items-center gap-3">
